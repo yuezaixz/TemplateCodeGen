@@ -30,6 +30,8 @@
 		A607E48A24C44CD2006FB473 /* SpaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A607E48924C44CD2006FB473 /* SpaceModel.swift */; };
 		A607E48C24C44D0B006FB473 /* PhotoPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = A607E48B24C44D0B006FB473 /* PhotoPiece.swift */; };
 		A607E48E24C44D31006FB473 /* BoundaryPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = A607E48D24C44D31006FB473 /* BoundaryPiece.swift */; };
+		A607E49124C45376006FB473 /* GenerateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A607E49024C45376006FB473 /* GenerateUtils.swift */; };
+		A607E49324C4544A006FB473 /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A607E49224C4544A006FB473 /* Puzzle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,8 @@
 		A607E48924C44CD2006FB473 /* SpaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceModel.swift; sourceTree = "<group>"; };
 		A607E48B24C44D0B006FB473 /* PhotoPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPiece.swift; sourceTree = "<group>"; };
 		A607E48D24C44D31006FB473 /* BoundaryPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryPiece.swift; sourceTree = "<group>"; };
+		A607E49024C45376006FB473 /* GenerateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateUtils.swift; sourceTree = "<group>"; };
+		A607E49224C4544A006FB473 /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,7 @@
 				A607E48924C44CD2006FB473 /* SpaceModel.swift */,
 				A607E48B24C44D0B006FB473 /* PhotoPiece.swift */,
 				A607E48D24C44D31006FB473 /* BoundaryPiece.swift */,
+				A607E49224C4544A006FB473 /* Puzzle.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				A607E48424C44C75006FB473 /* Consants.swift */,
+				A607E49024C45376006FB473 /* GenerateUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -276,6 +282,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A607E49124C45376006FB473 /* GenerateUtils.swift in Sources */,
 				848522E6207BCCF40009A75E /* ViewController.swift in Sources */,
 				A607E47B24C1A5F2006FB473 /* ISO8601DateFormatter.swift in Sources */,
 				A607E47224C1A5F2006FB473 /* XMLReferencingEncoder.swift in Sources */,
@@ -290,6 +297,7 @@
 				A607E47424C1A5F2006FB473 /* XMLEncoder.swift in Sources */,
 				A607E47824C1A5F2006FB473 /* XMLKeyedDecodingContainer.swift in Sources */,
 				A607E48224C44C48006FB473 /* FrameModel.swift in Sources */,
+				A607E49324C4544A006FB473 /* Puzzle.swift in Sources */,
 				A607E47524C1A5F2006FB473 /* XMLEncodingStorage.swift in Sources */,
 				A607E47624C1A5F2006FB473 /* DecodingErrorExtension.swift in Sources */,
 				A607E47924C1A5F2006FB473 /* XMLDecodingStorage.swift in Sources */,

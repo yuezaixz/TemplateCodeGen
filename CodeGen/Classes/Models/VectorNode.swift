@@ -8,7 +8,24 @@
 
 import Foundation
 
+enum VectorNodePosition: Int {
+    case leftBottom = 0, leftTop, rightTop, rightBottom
+}
+
 class VectorNode {
-    var photoIndexs: [Int] = []
+    var photoIndexs: [String] = ["-1", "-1", "-1", "-1"]
+    var origin: CGPoint
     
+    init(photo: PhotoPiece, origin: CGPoint, position: VectorNodePosition) {
+        photoIndexs[position.rawValue] = photo.photoIndex
+        self.origin = origin
+    }
+    
+    func isVector(photo: PhotoPiece, origin: CGPoint) -> Bool {
+        origin.equal(point: origin)
+    }
+    
+    func addPhotoIndexs(photoIndex: String, position: VectorNodePosition) {
+        photoIndexs[position.rawValue] = photoIndex
+    }
 }

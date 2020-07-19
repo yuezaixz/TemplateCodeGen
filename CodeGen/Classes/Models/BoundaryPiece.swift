@@ -23,24 +23,15 @@ class BoundaryPiece: Codable {
     var bottomBoundarys: String = "-1"
     var rightBoundarys: String = "-1"
     
-    var calcItem: CalcBoundartModel?
-    
-    init(_ model: CalcBoundartModel) {
-        frameRect = "{{\(model.frameRect.origin.x),\(model.frameRect.origin.y)},{\(model.frameRect.size.width),\(model.frameRect.size.height)}}"
-        calcItem = model
-        translateDirection = model.translateDirection
-        
-    }
-    
-    func add(_ model: CalcBoundartModel) {
-        if let calcItem = calcItem {
-            if calcItem.translateDirection == "1" {
-                calcItem.frameRect = CGRect(origin: calcItem.frameRect.origin, size: CGSize(width: calcItem.frameRect.size.width + model.frameRect.size.width, height: calcItem.frameRect.size.height))
-            } else {
-                calcItem.frameRect = CGRect(origin: calcItem.frameRect.origin, size: CGSize(width: calcItem.frameRect.size.width, height: calcItem.frameRect.size.height + model.frameRect.size.height))
-            }
-            frameRect = "{{\(calcItem.frameRect.origin.x),\(calcItem.frameRect.origin.y)},{\(calcItem.frameRect.size.width),\(calcItem.frameRect.size.height)}}"
+    init(_ startPoint: CGPoint, endPoint: CGPoint, isH: Bool) {
+        if isH {
+            translateDirection = "1"
+            frameRect = "{{\(startPoint.x - kBoundartWidth/2),\(startPoint.y)},{\(kBoundartWidth),\(endPoint.y - startPoint.y)}}"
+        } else {
+            translateDirection = "2"
+            frameRect = "{{\(startPoint.x),\(startPoint.y - kBoundartWidth/2)},{\(endPoint.x - startPoint.x),\(kBoundartWidth)}}"
         }
+        
     }
 }
 

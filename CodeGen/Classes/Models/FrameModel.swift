@@ -139,4 +139,15 @@ struct FrameModel {
     
     let hStr: String
     let vStr: String
+    
+    func vectors(frameSize: CGSize) -> [CGPoint] {
+        var results: [CGPoint] = []
+        
+        results.append(CGPoint(x: origin.x * frameSize.width, y: origin.y * frameSize.height))
+        results.append(CGPoint(x: origin.x * frameSize.width, y: (origin.y + size.height) * frameSize.height))
+        results.append(CGPoint(x: (origin.x + size.width) * frameSize.width, y: (origin.y + size.height) * frameSize.height))
+        results.append(CGPoint(x: (origin.x + size.width) * frameSize.width, y: origin.y * frameSize.height))
+        
+        return results
+    }
 }
