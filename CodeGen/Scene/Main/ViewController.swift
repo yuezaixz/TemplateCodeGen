@@ -111,27 +111,6 @@ class ViewController: NSViewController, NSTextFieldDelegate {
         regenerateContentViews()
     }
     
-    fileprivate func generateTempBoundary(_ frameRect: CGRect, _ tempBoundary: inout [CalcBoundartModel]) {
-        let calcBoundartItem = CalcBoundartModel()
-        if frameRect.origin.x != 0 {
-            calcBoundartItem.frameRect = CGRect(origin: CGPoint(x: frameRect.origin.x - kBoundartWidth / 2, y: frameRect.origin.y), size: CGSize(width: kBoundartWidth, height: frameRect.size.height))
-            calcBoundartItem.translateDirection = "2"
-        }
-        if frameRect.origin.y != 0 {
-            calcBoundartItem.frameRect = CGRect(origin: CGPoint(x: frameRect.origin.x, y: frameRect.origin.y - kBoundartWidth / 2), size: CGSize(width: frameRect.size.width, height: kBoundartWidth))
-            calcBoundartItem.translateDirection = "1"
-        }
-        if frameRect.origin.x + frameRect.size.width < 0.99 {
-            calcBoundartItem.frameRect = CGRect(origin: CGPoint(x: frameRect.origin.x + frameRect.size.width - kBoundartWidth / 2, y: frameRect.origin.y), size: CGSize(width: kBoundartWidth, height: frameRect.size.height))
-            calcBoundartItem.translateDirection = "2"
-        }
-        if frameRect.origin.y + frameRect.size.height < 0.99 {
-            calcBoundartItem.frameRect = CGRect(origin: CGPoint(x: frameRect.origin.x, y: frameRect.origin.y + frameRect.size.height - kBoundartWidth / 2), size: CGSize(width: frameRect.size.width, height: kBoundartWidth))
-            calcBoundartItem.translateDirection = "1"
-        }
-        tempBoundary.append(calcBoundartItem)
-    }
-    
     @IBAction func saveAction(_ sender: Any) {
         
         let encoder = XMLEncoder()
@@ -168,7 +147,7 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                     if let position = VectorNodePosition(rawValue: positionIndex) {
                         var exitVectorNode: VectorNode?
                         for vectorNode in vectorNodes {
-                            if vectorNode.isVector(photo: photoPiece, origin: frameModel.origin) {
+                            if vectorNode.isVector(photo: photoPiece, origin: vector) {
                                 exitVectorNode = vectorNode
                                 break
                             }
@@ -209,10 +188,11 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                     continue
                 }
                 if let currentVectors = hVectors[x], currentVectors.count > 1 { // 至少两个点，数据无异常情况不可能只有一个点
-                    let (maxY, minY) = currentVectors.reduce((0, Int(radioType.frameSize().height))) { (tempResult, node) -> (Int, Int) in
-                        return (max(tempResult.0, Int(node.origin.y)), min(tempResult.1, Int(node.origin.y)))
+                    let (maxY, minY, photoIndexSet) = currentVectors.reduce((0, Int(radioType.frameSize().height), Set<String>())) { (tempResult, node) -> (Int, Int, Set<String>) in
+                        return (max(tempResult.0, Int(node.origin.y)), min(tempResult.1, Int(node.origin.y)), tempResult.2.union(node.photoIndexs.filter { $0 != "-1" }))
                     }
                     let boundartItem = BoundaryPiece(CGPoint(x: x, y: minY), endPoint: CGPoint(x: x, y: maxY), isH: true)
+                    boundartItem.patchesDividedBy = photoIndexSet.sorted().joined(separator: ",")
                     boundarys.append(boundartItem)
                 }
             }
@@ -221,43 +201,14 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                     continue
                 }
                 if let currentVectors = vVectors[y], currentVectors.count > 1 { // 至少两个点，数据无异常情况不可能只有一个点
-                    let (maxX, minX) = currentVectors.reduce((0, Int(radioType.frameSize().width))) { (tempResult, node) -> (Int, Int) in
-                        return (max(tempResult.0, Int(node.origin.x)), min(tempResult.1, Int(node.origin.x)))
+                    let (maxX, minX, photoIndexSet) = currentVectors.reduce((0, Int(radioType.frameSize().width), Set<String>())) { (tempResult, node) -> (Int, Int, Set<String>) in
+                        return (max(tempResult.0, Int(node.origin.x)), min(tempResult.1, Int(node.origin.x)), tempResult.2.union(node.photoIndexs.filter { $0 != "-1" }))
                     }
-                    boundarys.append(BoundaryPiece(CGPoint(x: minX, y: y), endPoint: CGPoint(x: maxX, y: y), isH: false))
+                    let boundartItem = BoundaryPiece(CGPoint(x: minX, y: y), endPoint: CGPoint(x: maxX, y: y), isH: false)
+                    boundartItem.patchesDividedBy = photoIndexSet.sorted().joined(separator: ",")
+                    boundarys.append(boundartItem)
                 }
             }
-            
-            
-//            for bundaryItem in tempBoundary {
-//                var findIndex: Int?
-//                for (addedItemIndex, addedItem) in boundarys.enumerated() {
-//                    if let calcItem = addedItem.calcItem, calcItem.translateDirection == bundaryItem.translateDirection {
-//                        if calcItem.frameRect.origin.x + calcItem.frameRect.size.width == bundaryItem.frameRect.origin.x && calcItem.frameRect.origin.y + calcItem.frameRect.size.height == bundaryItem.frameRect.origin.y {
-//                            findIndex = addedItemIndex
-//                            break
-//                        }
-//                    }
-//                }
-//                if let findIndex = findIndex {
-//                    let addingItem = boundarys[findIndex]
-//                    addingItem.add(bundaryItem)
-//                } else {
-//                    let addingItem = BoundaryPiece(bundaryItem)
-//                    boundarys.append(addingItem)
-//                }
-//            }
-            
-//            for (itemIndex, boundartItem) in boundarys.enumerated() {
-//                boundartItem.patchIndex = "1\(itemIndex)"
-//
-//                // TODO patchesDividedBy分割的照片部件
-//                // 去frameModel去找，是在边界则添加
-//                // 两个模型的topBoundarys等也在这里生成
-//
-//                // 清空，不进行导出
-//                boundartItem.calcItem = nil
-//            }
             puzzle.photoPuzzlePieces.photoPuzzle = photoPuzzles
             puzzle.boundaryPieces.boundaryPiece = boundarys
             
@@ -268,10 +219,4 @@ class ViewController: NSViewController, NSTextFieldDelegate {
             print(error)
         }
     }
-}
-
-class CalcBoundartModel: Codable {
-    var frameRect: CGRect = CGRect.null
-    /// 移动方向，取值1：水平移动；取值2：竖直移动
-    var translateDirection: String  = "1"
 }

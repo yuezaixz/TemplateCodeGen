@@ -22,7 +22,7 @@ class VectorNode {
     }
     
     func isVector(photo: PhotoPiece, origin: CGPoint) -> Bool {
-        self.origin.equal(point: origin)
+        self.origin.equalTo(origin)
     }
     
     func addPhotoIndexs(photoIndex: String, position: VectorNodePosition) {
