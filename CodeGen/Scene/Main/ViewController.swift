@@ -265,17 +265,69 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                         }
                     }
                 }
+                
+                let (lessItem, moreItem) = boundarys.filter({ $0.translateDirection == boundaryItem.translateDirection }).reduce((nil, nil)) { (result, checkBoundaryItem) -> (BoundaryPiece?, BoundaryPiece?) in
+                    var lessItem = result.0
+                    var moreItem = result.1
+                    if let lessTempItem = lessItem {
+                        if boundaryItem.translateDirection == "2" {
+                            if boundaryItem.startPoint!.y > checkBoundaryItem.startPoint!.y && boundaryItem.startPoint!.y - checkBoundaryItem.startPoint!.y < boundaryItem.startPoint!.y - lessTempItem.startPoint!.y {
+                                lessItem = checkBoundaryItem
+                            }
+                        } else {
+                            if boundaryItem.startPoint!.x > checkBoundaryItem.startPoint!.x && boundaryItem.startPoint!.x - checkBoundaryItem.startPoint!.x < boundaryItem.startPoint!.x - lessTempItem.startPoint!.x {
+                                lessItem = checkBoundaryItem
+                            }
+                        }
+                    } else {
+                        if boundaryItem.translateDirection == "2" {
+                            if boundaryItem.startPoint!.y > checkBoundaryItem.startPoint!.y {
+                                lessItem = checkBoundaryItem
+                            }
+                        } else {
+                            if boundaryItem.startPoint!.x > checkBoundaryItem.startPoint!.x {
+                                lessItem = checkBoundaryItem
+                            }
+                        }
+                    }
+                    if let moreTempItem = moreItem {
+                        if boundaryItem.translateDirection == "2" {
+                            if boundaryItem.startPoint!.y < checkBoundaryItem.startPoint!.y && checkBoundaryItem.startPoint!.y - boundaryItem.startPoint!.y < moreTempItem.startPoint!.y - boundaryItem.startPoint!.y {
+                                moreItem = checkBoundaryItem
+                            }
+                        } else {
+                            if boundaryItem.startPoint!.x < checkBoundaryItem.startPoint!.x && checkBoundaryItem.startPoint!.x - boundaryItem.startPoint!.x < moreTempItem.startPoint!.x - boundaryItem.startPoint!.x {
+                                moreItem = checkBoundaryItem
+                            }
+                        }
+                    } else {
+                        if boundaryItem.translateDirection == "2" {
+                            if boundaryItem.startPoint!.y < checkBoundaryItem.startPoint!.y {
+                                moreItem = checkBoundaryItem
+                            }
+                        } else {
+                            if boundaryItem.startPoint!.x < checkBoundaryItem.startPoint!.x {
+                                moreItem = checkBoundaryItem
+                            }
+                        }
+                    }
+                    return (lessItem, moreItem)
+                }
+                if let lessItem = lessItem {
+                    if boundaryItem.translateDirection == "2" {
+                        boundaryItem.topBoundarys = lessItem.patchIndex
+                    } else {
+                        boundaryItem.leftBoundarys = lessItem.patchIndex
+                    }
+                }
+                if let moreItem = moreItem {
+                    if boundaryItem.translateDirection == "2" {
+                        boundaryItem.bottomBoundarys = moreItem.patchIndex
+                    } else {
+                        boundaryItem.rightBoundarys = moreItem.patchIndex
+                    }
+                }
             }
-            
-//            for boundaryItem in boundarys {
-//                boundaryItem.startPoint = nil
-//                boundaryItem.endPoint = nil
-//            }
-//
-//            for photoItem in photoPuzzles {
-//                photoItem.origin = nil
-//                photoItem.size = nil
-//            }
             
             puzzle.photoPuzzlePieces.photoPuzzle = photoPuzzles
             puzzle.boundaryPieces.boundaryPiece = boundarys
