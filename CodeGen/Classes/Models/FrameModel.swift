@@ -98,7 +98,7 @@ enum FrameRadioType: Int {
         let originX = Int(frameModel.origin.x * width)
         let originY = Int(frameModel.origin.y * height)
         let sizeWidth = Int(frameModel.size.width * width)
-        let sizeheight = Int(frameModel.size.height * width)
+        let sizeheight = Int(frameModel.size.height * height)
         photoPiece.origin = CGPoint(x: originX, y: originY)
         photoPiece.size = CGSize(width: sizeWidth, height: sizeheight)
         
