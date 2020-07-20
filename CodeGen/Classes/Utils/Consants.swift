@@ -10,4 +10,6 @@ import Cocoa
 
 let kBoundartWidth: CGFloat = 100
 
+var kWidth: CGFloat = 1600
+
 let kBackgroundColors: [NSColor] = [.gray, .green, .blue, .cyan, .yellow, .magenta, .orange, .purple, .brown]

@@ -48,33 +48,33 @@ enum FrameRadioType: Int {
 
     //        "{{334,0},{666,1000}}"
     func frameSize() -> CGSize {
-        var width: CGFloat = 1200, height: CGFloat = 1200
+        var width: CGFloat = kWidth, height: CGFloat = kWidth
         switch self {
         case .r1_2:
-            width = 600
+            width = height/2
         case .r1_3:
-            width = 400
+            width = height/3
         case .r1_4:
-            width = 300
+            width = height/4
         case .r2_1:
-            height = 600
+            height = width/2
         case .r2_3:
-            width = 800
+            width = height * 2 / 3
         case .r3_1:
-            height = 400
+            height = width / 3
         case .r3_2:
-            height = 800
+            height = width * 2 / 3
         case .r3_4:
-            height = 900
+            width = height * 3 / 4
         case .r4_1:
-            height = 300
+            height = width / 4
         case .r4_3:
-            height = 900
+            height = width * 3 / 4
         case .r16_9:
-            height = 675
+            height = width * 9 / 16
         default:
-            width = 1200
-            height = 1200
+            width = kWidth
+            height = kWidth
         }
         return CGSize(width: width, height: height)
     }
