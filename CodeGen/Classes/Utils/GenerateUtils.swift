@@ -11,10 +11,11 @@ import Foundation
 class GenerateUtils {
     class func generateBorderHasNeighbors(_ frameModel: FrameModel, _ photoPiece: PhotoPiece) {
         var borderHasNeighbors = ""
+        // 注意这里要反过来，又要转换成iOS的反笛卡尔积坐标系了
         borderHasNeighbors += frameModel.origin.x != 0 ? "1," : "0,"
-        borderHasNeighbors += (frameModel.origin.y + frameModel.size.height < 0.99) ? "1," : "0,"
-        borderHasNeighbors += (frameModel.origin.x + frameModel.size.width < 0.99) ? "1," : "0,"
         borderHasNeighbors += frameModel.origin.y != 0 ? "1" : "0"
+        borderHasNeighbors += (frameModel.origin.x + frameModel.size.width < 0.99) ? "1," : "0,"
+        borderHasNeighbors += (frameModel.origin.y + frameModel.size.height < 0.99) ? "1," : "0,"
         photoPiece.borderHasNeighbors = borderHasNeighbors
     }
     
