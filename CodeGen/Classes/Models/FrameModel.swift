@@ -91,7 +91,7 @@ enum FrameRadioType: Int {
         return CGRect(origin: CGPoint(x: originX, y: originY), size: CGSize(width: sizeWidth, height: sizeheight))
     }
     
-    func frameStrs(_ frameModel: FrameModel) -> String {
+    func frameStrs(_ frameModel: FrameModel, _ photoPiece: PhotoPiece) -> String {
         let size = self.frameSize()
         let width: CGFloat = size.width, height: CGFloat = size.height
         
@@ -99,6 +99,8 @@ enum FrameRadioType: Int {
         let originY = Int(frameModel.origin.y * height)
         let sizeWidth = Int(frameModel.size.width * width)
         let sizeheight = Int(frameModel.size.height * width)
+        photoPiece.origin = CGPoint(x: originX, y: originY)
+        photoPiece.size = CGSize(width: sizeWidth, height: sizeheight)
         
         return "{{\(originX),\(originY)},{\(sizeWidth),\(sizeheight)}}"
     }

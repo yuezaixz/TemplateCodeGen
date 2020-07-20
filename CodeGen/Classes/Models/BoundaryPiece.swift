@@ -23,7 +23,13 @@ class BoundaryPiece: Codable {
     var bottomBoundarys: String = "-1"
     var rightBoundarys: String = "-1"
     
+    var startPoint: CGPoint?
+    var endPoint: CGPoint?
+    
     init(_ startPoint: CGPoint, endPoint: CGPoint, isH: Bool) {
+        self.startPoint = startPoint
+        self.endPoint = endPoint
+        
         if isH {
             translateDirection = "1"
             frameRect = "{{\(Int(startPoint.x - kBoundartWidth/2)),\(Int(startPoint.y))},{\(Int(kBoundartWidth)),\(Int(endPoint.y - startPoint.y))}}"

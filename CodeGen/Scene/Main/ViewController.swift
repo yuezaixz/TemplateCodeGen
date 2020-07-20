@@ -129,9 +129,8 @@ class ViewController: NSViewController, NSTextFieldDelegate {
             
             for (index, frameModel) in spaceModel.datas.enumerated() {
                 let photoPiece = PhotoPiece()
-                
                 //frames
-                photoPiece.frameRectArray = [radioType.frameStrs(frameModel)]
+                photoPiece.frameRectArray = [radioType.frameStrs(frameModel, photoPiece)]
                 
 //                let frameRect = radioType.frameRect(frameModel)
                 
@@ -183,6 +182,8 @@ class ViewController: NSViewController, NSTextFieldDelegate {
             }
             
             var boundarys: [BoundaryPiece] = []
+            var boundaryIndex = 10 // 暂时图片只可能9张，所以边界从10开始
+            
             for x in hVectors.keys {
                 if x == 0 || x == Int(radioType.frameSize().width) { // 0的位置和最右不需要设置边界
                     continue
@@ -193,6 +194,23 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                     }
                     let boundartItem = BoundaryPiece(CGPoint(x: x, y: minY), endPoint: CGPoint(x: x, y: maxY), isH: true)
                     boundartItem.patchesDividedBy = photoIndexSet.sorted().joined(separator: ",")
+                    boundartItem.patchIndex = "\(boundaryIndex)"
+                    boundaryIndex += 1
+
+                    for photoPieceIndex in photoIndexSet {
+                        for photoPiece in photoPuzzles {
+                            if photoPiece.photoIndex == "\(photoPieceIndex)" {
+                                if let photoOrigin = photoPiece.origin, let photoSize = photoPiece.size {
+                                    if Int(photoOrigin.x) < x {
+                                        photoPiece.rightBoundarys = boundartItem.patchIndex
+                                    } else if Int(photoOrigin.x + photoSize.width) > Int(x)  {
+                                        photoPiece.leftBoundarys = boundartItem.patchIndex
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
                     boundarys.append(boundartItem)
                 }
             }
@@ -205,13 +223,58 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                         return (max(tempResult.0, Int(node.origin.x)), min(tempResult.1, Int(node.origin.x)), tempResult.2.union(node.photoIndexs.filter { $0 != "-1" }))
                     }
                     let boundartItem = BoundaryPiece(CGPoint(x: minX, y: y), endPoint: CGPoint(x: maxX, y: y), isH: false)
+                    boundartItem.patchIndex = "\(boundaryIndex)"
+                    boundaryIndex += 1
                     boundartItem.patchesDividedBy = photoIndexSet.sorted().joined(separator: ",")
+
+                    for photoPieceIndex in photoIndexSet {
+                        for photoPiece in photoPuzzles {
+                            if photoPiece.photoIndex == "\(photoPieceIndex)" {
+                                if let photoOrigin = photoPiece.origin, let photoSize = photoPiece.size {
+                                    if Int(photoOrigin.y) < y {
+                                        photoPiece.bottomBoundarys = boundartItem.patchIndex
+                                    } else if Int(photoOrigin.y + photoSize.height) > Int(y)  {
+                                        photoPiece.topBoundarys = boundartItem.patchIndex
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
                     boundarys.append(boundartItem)
                 }
             }
             
             for boundaryItem in boundarys {
-                
+                for checkBoundaryItem in boundarys.filter({ $0.translateDirection != boundaryItem.translateDirection }) {
+                    if boundaryItem.translateDirection == "2" { // 纵向移动的边界，那么只有左右顶点
+                        if let startPoint = boundaryItem.startPoint, let endPoint = boundaryItem.endPoint, let checkStartPoint = checkBoundaryItem.startPoint, let checkEndPoint = checkBoundaryItem.endPoint {
+                            if startPoint.x == checkStartPoint.x && startPoint.y >= checkStartPoint.y && startPoint.y <= checkEndPoint.y {
+                                boundaryItem.leftBoundarys = checkBoundaryItem.patchIndex
+                            } else if endPoint.x == checkStartPoint.x && endPoint.y >= checkStartPoint.y && endPoint.y <= checkEndPoint.y {
+                                boundaryItem.rightBoundarys = checkBoundaryItem.patchIndex
+                            }
+                        }
+                    } else {
+                        if let startPoint = boundaryItem.startPoint, let endPoint = boundaryItem.endPoint, let checkStartPoint = checkBoundaryItem.startPoint, let checkEndPoint = checkBoundaryItem.endPoint {
+                            if startPoint.y == checkStartPoint.y && startPoint.x >= checkStartPoint.x && startPoint.x <= checkEndPoint.x {
+                                boundaryItem.bottomBoundarys = checkBoundaryItem.patchIndex
+                            } else if endPoint.y == checkStartPoint.y && endPoint.x >= checkStartPoint.x && endPoint.x <= checkEndPoint.x {
+                                boundaryItem.topBoundarys = checkBoundaryItem.patchIndex
+                            }
+                        }
+                    }
+                }
+            }
+            
+            for boundaryItem in boundarys {
+                boundaryItem.startPoint = nil
+                boundaryItem.endPoint = nil
+            }
+            
+            for photoItem in photoPuzzles {
+                photoItem.origin = nil
+                photoItem.size = nil
             }
             
             puzzle.photoPuzzlePieces.photoPuzzle = photoPuzzles

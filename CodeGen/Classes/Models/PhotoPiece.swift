@@ -21,4 +21,7 @@ class PhotoPiece: Codable {
     var bottomBoundarys: String = "-1"
     var rightBoundarys: String = "-1"
     var frameRectArray: [String] = []
+    
+    var origin: CGPoint?
+    var size: CGSize?
 }
