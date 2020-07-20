@@ -224,7 +224,7 @@ internal class _XMLElement {
         } else if !children.isEmpty {
             string += ">\n"
             
-            for childElement in children {
+            for childElement in children.sorted(by: { (kSortNumHashSet[$0.0] ?? 10000) < (kSortNumHashSet[$1.0] ?? 10001) }) {
                 for child in childElement.value {
                     string += child._toXMLString(indented: level + 1, withCDATA: cdata)
                     string += "\n"

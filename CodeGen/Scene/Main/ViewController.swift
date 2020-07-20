@@ -267,20 +267,24 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                 }
             }
             
-            for boundaryItem in boundarys {
-                boundaryItem.startPoint = nil
-                boundaryItem.endPoint = nil
-            }
-            
-            for photoItem in photoPuzzles {
-                photoItem.origin = nil
-                photoItem.size = nil
-            }
+//            for boundaryItem in boundarys {
+//                boundaryItem.startPoint = nil
+//                boundaryItem.endPoint = nil
+//            }
+//            
+//            for photoItem in photoPuzzles {
+//                photoItem.origin = nil
+//                photoItem.size = nil
+//            }
             
             puzzle.photoPuzzlePieces.photoPuzzle = photoPuzzles
             puzzle.boundaryPieces.boundaryPiece = boundarys
             
-            let data = try encoder.encode(puzzle, withRootKey: "puzzle") //根节点标签为data
+            let data = try encoder.encode(
+                puzzle,
+                withRootKey: "puzzle",
+                header: XMLHeader(version: 1.0, encoding: "utf-8")
+            )
             let xml = String(data: data, encoding: .utf8)
             print(xml!)
         } catch {

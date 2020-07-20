@@ -12,7 +12,7 @@ class PhotoPiecesWraper: Codable {
     var photoPuzzle: [PhotoPiece] = []
 }
 
-class PhotoPiece: Codable {
+class PhotoPiece: Codable, SortedKeysable {
     let contentMode: String = "2"
     var photoIndex: String = "0"
     var borderHasNeighbors: String = "0,0,0,0"
@@ -24,4 +24,14 @@ class PhotoPiece: Codable {
     
     var origin: CGPoint?
     var size: CGSize?
+    
+    enum CodingKeys: String, CodingKey, CaseIterable {
+        case contentMode, photoIndex, borderHasNeighbors
+        case topBoundarys, leftBoundarys, bottomBoundarys
+        case rightBoundarys, frameRectArray
+    }
+    
+    var sortedKeys: [String] {
+        return PhotoPiece.CodingKeys.allCases.map { $0.rawValue }
+    }
 }

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class Puzzle: Codable {
+class Puzzle: Codable, SortedKeysable {
     let resId: String = "2001902002"
     let version: String = "1"
     let name: String = "模板2-2"
@@ -23,6 +23,18 @@ class Puzzle: Codable {
     let backgroundImagePath: String = ""
     let backgroundTile: String = ""
     let backgroundFilter: String = ""
+    
+    enum CodingKeys: String, CodingKey, CaseIterable {
+        case resId, version, name
+        case iconPath, fullScreen, width, height
+        case photoAmount, formatAmount, backgroundColor, backgroundType
+        case backgroundImagePath, backgroundTile, backgroundFilter
+        case photoPuzzlePieces, boundaryPieces
+    }
+    
+    var sortedKeys: [String] {
+        return Puzzle.CodingKeys.allCases.map { $0.rawValue }
+    }
     
     var photoPuzzlePieces: PhotoPiecesWraper = PhotoPiecesWraper()
     var boundaryPieces: BoundaryPiecesWraper = BoundaryPiecesWraper()

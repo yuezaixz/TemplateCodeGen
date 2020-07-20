@@ -12,6 +12,41 @@ import Foundation
 // XML Encoder
 //===----------------------------------------------------------------------===//
 
+protocol SortedKeysable {
+    var sortedKeys: [String] { get }
+}
+
+let kSortNumHashSet: [String: Int] = [
+    "resId" : 0,
+    "version" : 1,
+    "name" : 2,
+    "iconPath" : 3,
+    "fullScreen" : 4,
+    "width" : 5,
+    "height" : 6,
+    "photoAmount" : 7,
+    "formatAmount" : 8,
+    "backgroundColor" : 9,
+    "backgroundType" : 10,
+    "backgroundImagePath" : 11,
+    "backgroundTile" : 12,
+    "backgroundFilter" : 13,
+    "photoPuzzlePieces" : 14,
+    "boundaryPieces" : 15,
+    "contentMode" : 20,
+    "photoIndex" : 30,
+    "patchIndex" : 40,
+    "borderHasNeighbors" : 50,
+    "frameRectArray" : 60,
+    "frameRect" : 70,
+    "translateDirection" : 80,
+    "patchesDividedBy" : 90,
+    "topBoundarys" : 100,
+    "leftBoundarys" : 110,
+    "bottomBoundarys" : 120,
+    "rightBoundarys" : 130
+]
+
 /// `XMLEncoder` facilitates the encoding of `Encodable` values into XML.
 open class XMLEncoder {
     // MARK: Options
@@ -246,6 +281,8 @@ open class XMLEncoder {
         } else if topLevel is NSString {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) encoded as string XML fragment."))
         }
+        
+//        var sortedKeys = (value as? SortedKeysable)?.sortedKeys ?? []
         
         guard let element = _XMLElement.createRootElement(rootKey: rootKey, object: topLevel) else {
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to XML."))
