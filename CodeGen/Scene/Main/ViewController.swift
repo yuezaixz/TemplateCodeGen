@@ -130,7 +130,7 @@ class ViewController: NSViewController, NSTextFieldDelegate {
             for (index, frameModel) in spaceModel.datas.enumerated() {
                 let photoPiece = PhotoPiece()
                 //frames
-                photoPiece.frameRectArray = [radioType.frameStrs(frameModel, photoPiece)]
+                photoPiece.frameRectArray["frameRect"] = [radioType.frameStrs(frameModel, photoPiece)]
                 
 //                let frameRect = radioType.frameRect(frameModel)
                 
@@ -271,7 +271,7 @@ class ViewController: NSViewController, NSTextFieldDelegate {
 //                boundaryItem.startPoint = nil
 //                boundaryItem.endPoint = nil
 //            }
-//            
+//
 //            for photoItem in photoPuzzles {
 //                photoItem.origin = nil
 //                photoItem.size = nil
