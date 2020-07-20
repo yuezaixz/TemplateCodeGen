@@ -296,7 +296,7 @@
                                 <rect key="frame" x="91" y="52" width="67" height="32"/>
                                 <buttonCell key="cell" type="push" title="哈哈" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZgM-tr-Zas">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                         </subviews>

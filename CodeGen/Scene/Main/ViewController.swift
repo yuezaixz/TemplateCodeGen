@@ -117,8 +117,8 @@ class ViewController: NSViewController, NSTextFieldDelegate {
         do {
             let puzzle = Puzzle()
             let frameSize = radioType.frameSize()
-            puzzle.width = "\(frameSize.width)"
-            puzzle.height = "\(frameSize.height)"
+            puzzle.width = "\(lroundf(Float(frameSize.width)))"
+            puzzle.height = "\(lroundf(Float(frameSize.height)))"
             puzzle.photoAmount = "\(spaceModel.datas.count)"
             
             var photoPuzzles: [PhotoPiece] = []
