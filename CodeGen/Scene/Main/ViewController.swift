@@ -209,6 +209,11 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                     boundarys.append(boundartItem)
                 }
             }
+            
+            for boundaryItem in boundarys {
+                
+            }
+            
             puzzle.photoPuzzlePieces.photoPuzzle = photoPuzzles
             puzzle.boundaryPieces.boundaryPiece = boundarys
             

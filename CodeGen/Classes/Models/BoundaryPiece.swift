@@ -26,10 +26,10 @@ class BoundaryPiece: Codable {
     init(_ startPoint: CGPoint, endPoint: CGPoint, isH: Bool) {
         if isH {
             translateDirection = "1"
-            frameRect = "{{\(startPoint.x - kBoundartWidth/2),\(startPoint.y)},{\(kBoundartWidth),\(endPoint.y - startPoint.y)}}"
+            frameRect = "{{\(Int(startPoint.x - kBoundartWidth/2)),\(Int(startPoint.y))},{\(Int(kBoundartWidth)),\(Int(endPoint.y - startPoint.y))}}"
         } else {
             translateDirection = "2"
-            frameRect = "{{\(startPoint.x),\(startPoint.y - kBoundartWidth/2)},{\(endPoint.x - startPoint.x),\(kBoundartWidth)}}"
+            frameRect = "{{\(Int(startPoint.x)),\(Int(startPoint.y - kBoundartWidth/2))},{\(Int(endPoint.x - startPoint.x)),\(Int(kBoundartWidth))}}"
         }
         
     }
