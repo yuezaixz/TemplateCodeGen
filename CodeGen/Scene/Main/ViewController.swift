@@ -258,9 +258,9 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                     } else {
                         if let startPoint = boundaryItem.startPoint, let endPoint = boundaryItem.endPoint, let checkStartPoint = checkBoundaryItem.startPoint, let checkEndPoint = checkBoundaryItem.endPoint {
                             if startPoint.y == checkStartPoint.y && startPoint.x >= checkStartPoint.x && startPoint.x <= checkEndPoint.x {
-                                boundaryItem.bottomBoundarys = checkBoundaryItem.patchIndex
-                            } else if endPoint.y == checkStartPoint.y && endPoint.x >= checkStartPoint.x && endPoint.x <= checkEndPoint.x {
                                 boundaryItem.topBoundarys = checkBoundaryItem.patchIndex
+                            } else if endPoint.y == checkStartPoint.y && endPoint.x >= checkStartPoint.x && endPoint.x <= checkEndPoint.x {
+                                boundaryItem.bottomBoundarys = checkBoundaryItem.patchIndex
                             }
                         }
                     }
@@ -338,6 +338,11 @@ class ViewController: NSViewController, NSTextFieldDelegate {
                 header: XMLHeader(version: 1.0, encoding: "utf-8")
             )
             let xml = String(data: data, encoding: .utf8)
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(xml!, forType: NSPasteboard.PasteboardType.string)
+//            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//            pasteboard.string = self.label.text;
             print(xml!)
         } catch {
             print(error)
